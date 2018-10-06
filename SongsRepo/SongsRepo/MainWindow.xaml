@@ -1,0 +1,32 @@
+﻿<Window x:Name="window" x:Class="SongsRepo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SongsRepo"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" Closed="window_Closed" Loaded="window_Loaded">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="197*"/>
+            <ColumnDefinition Width="597*"/>
+        </Grid.ColumnDefinitions>
+        <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" Height="410" Margin="1.2,0,-0.4,0" VerticalAlignment="Top" Width="596" ItemsSource="{Binding songsList, ElementName=window}" IsSynchronizedWithCurrentItem="True" IsReadOnly="True" Grid.Column="1">
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem x:Name="editItem" Header="Edit..." Click="editItem_Click"/>
+                    <MenuItem x:Name="deleteItem" Header="Delete..." Click="deleteItem_Click"/>
+                    <Separator/>
+                    <MenuItem x:Name="addNotes" Header="Add notes..." Click="addNotes_Click"/>
+                    <MenuItem x:Name="addText" Header="Add text..." Click="addText_Click"/>
+                    <MenuItem x:Name="AddMP3" Header="Add MP3" Click="AddMP3_Click"/>
+                    <Separator/>
+                    <MenuItem x:Name="ShowSong" Header="Display files..." Click="ShowSong_Click"></MenuItem>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+        </DataGrid>
+        <Button x:Name="addSongButton" Content="Add New Song" HorizontalAlignment="Left" Margin="47,10,0,0" VerticalAlignment="Top" Width="101" Click="addSongButton_Click" Height="26"/>
+        <Button x:Name="disposeButton" Content="Clear repositories..." HorizontalAlignment="Left" Margin="47,41,0,0" VerticalAlignment="Top" Width="101" Height="26" Click="disposeButton_Click"/>
+
+    </Grid>
+</Window>
