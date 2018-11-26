@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SongsRepo.Forms"
         mc:Ignorable="d"
-        Title="Add new song" Height="134.033" Width="232" Closed="Window_Closed" VerticalAlignment="Center" HorizontalAlignment="Center">
+        Title="Add new song" Height="134.033" Width="232" Closed="Window_Closed" VerticalAlignment="Center" HorizontalAlignment="Center" Icon="/SongsRepo;component/Ikona.ico">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="109*"/>

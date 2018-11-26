@@ -142,6 +142,18 @@ namespace SongsRepo
             DisplayForm displayForm = new DisplayForm(chosenSong, this);
             this.IsEnabled = false;
             displayForm.Show();
+        }   
+
+        private void PlaySong_Click(object sender, RoutedEventArgs e)
+        {
+            Song chosenSong = (Song)dataGrid.SelectedItem;
+            PlayerForm playerForm = new PlayerForm(chosenSong);
+            playerForm.Show();
+        }
+
+        private void QuitButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }
