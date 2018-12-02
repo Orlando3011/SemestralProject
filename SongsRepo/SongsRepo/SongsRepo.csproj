@@ -77,7 +77,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Classes\DirectoryMenager.cs" />
+    <Compile Include="Classes\SerializeMenager.cs" />
     <Compile Include="Classes\Song.cs" />
+    <Compile Include="Classes\Warning.cs" />
     <Compile Include="Forms\DisplayForm.cs">
       <SubType>Form</SubType>
     </Compile>

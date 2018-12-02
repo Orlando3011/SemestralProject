@@ -20,40 +20,21 @@ using System.IO;
 using Path = System.IO.Path;
 using System.Xml.Serialization;
 using System.Xml;
+using System.Windows.Forms;
 
 namespace SongsRepo
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public ObservableCollection<Song> songsList { get; set; }
-        public void createDirectory()
-        {
-            if (!Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "SongsRepo")))
-            {
-                Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "SongsRepo"));
-                Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "SongsRepo", "Notes"));
-                Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "SongsRepo", "Texts"));
-                Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "SongsRepo", "MP3s"));
-            }
-        }
-
-        public void clearDirectory(string path)
-        {
-            DirectoryInfo di = new DirectoryInfo(path);
-            foreach (DirectoryInfo dir in di.GetDirectories())
-            {
-                dir.Delete(true);
-            }
-        }
 
         public MainWindow()
         {
-            WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-            createDirectory();
+            DirectoryMenager dirMenager = new DirectoryMenager();
+            dirMenager.CreateDirectory();
+
             songsList = new ObservableCollection<Song> { };
+
             InitializeComponent();
         }
 
@@ -62,6 +43,7 @@ namespace SongsRepo
             int songID;
             if (songsList.Any()) songID = songsList.Last().Id + 1;
             else songID = 1;
+
             Song newSong = new Song(songID, "", "");
             NewSongForm newSongForm = new NewSongForm(newSong, this);
             this.IsEnabled = false;
@@ -101,29 +83,61 @@ namespace SongsRepo
 
         private void disposeButton_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("This action is irreversible. Do you want to contnue?", "Warning", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            Warning warning = new Warning();
+            if (warning.DisplayDeleteWarning() == true)
             {
+                DirectoryMenager dirMenager = new DirectoryMenager();
+                dirMenager.ClearDirectory();
                 songsList.Clear();
-                clearDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "SongsRepo"));
-                Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "SongsRepo", "Notes"));
-                Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "SongsRepo", "Texts"));
-                Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "SongsRepo", "MP3s"));
             }
+        }
 
+        private void ShowSong_Click(object sender, RoutedEventArgs e)
+        {
+            
+            Song chosenSong = (Song)dataGrid.SelectedItem;
+            if (chosenSong.NotesPath != null && chosenSong.TextPath != null)
+            {
+                DisplayForm displayForm = new DisplayForm(chosenSong, this);
+                this.IsEnabled = false;
+                displayForm.Show();
+            }
+            else
+            {
+                Warning errorWwrning = new Warning();
+                errorWwrning.DisplayDocumentsError();
+            }
+        }   
+
+        private void PlaySong_Click(object sender, RoutedEventArgs e)
+        {
+            Song chosenSong = (Song)dataGrid.SelectedItem;
+            if(chosenSong.MP3Path != null)
+            {
+                PlayerForm playerForm = new PlayerForm(chosenSong);
+                playerForm.Show();
+            }
+            else
+            {
+                Warning errorWwrning = new Warning();
+                errorWwrning.DisplayMP3Error();
+            }
+        }
+
+        private void QuitButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
 
         private void window_Closed(object sender, EventArgs e)
         {
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(ObservableCollection<Song>));
-            using (Stream fStream = new FileStream("songsList.xml", FileMode.Create, FileAccess.Write, FileShare.None))
-            {
-                xmlSerializer.Serialize(fStream, songsList);
-            }
+            SerializeMenager sMenager = new SerializeMenager();
+            sMenager.SerializeList(songsList);
         }
 
         private void window_Loaded(object sender, RoutedEventArgs e)
         {
-            if(File.Exists("songsList.xml"))
+            if (File.Exists("songsList.xml"))
             {
                 XmlSerializer xmlSerializer = new XmlSerializer(typeof(ObservableCollection<Song>));
                 using (Stream fStream = new FileStream("songsList.xml", FileMode.Open, FileAccess.Read, FileShare.None))
@@ -131,29 +145,13 @@ namespace SongsRepo
                     XmlReader reader = XmlReader.Create(fStream);
                     songsList.Clear();
                     songsList = (ObservableCollection<Song>)xmlSerializer.Deserialize(reader);
+                    //SerializeMenager sMenager = new SerializeMenager();
+                    //sMenager.LoadSerializedList(songsList);
+
                     dataGrid.ItemsSource = songsList;
                 }
             }
         }
 
-        private void ShowSong_Click(object sender, RoutedEventArgs e)
-        {
-            Song chosenSong = (Song)dataGrid.SelectedItem;
-            DisplayForm displayForm = new DisplayForm(chosenSong, this);
-            this.IsEnabled = false;
-            displayForm.Show();
-        }   
-
-        private void PlaySong_Click(object sender, RoutedEventArgs e)
-        {
-            Song chosenSong = (Song)dataGrid.SelectedItem;
-            PlayerForm playerForm = new PlayerForm(chosenSong);
-            playerForm.Show();
-        }
-
-        private void QuitButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
     }
 }

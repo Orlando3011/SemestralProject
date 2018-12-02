@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SongsRepo"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Closed="window_Closed" Loaded="window_Loaded">
+        Title="MainWindow" Height="450" Width="800" Closed="window_Closed" Loaded="window_Loaded" HorizontalAlignment="Center" VerticalAlignment="Center">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="197*"/>
