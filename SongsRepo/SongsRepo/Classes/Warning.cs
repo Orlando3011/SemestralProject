@@ -39,5 +39,10 @@ namespace SongsRepo.Classes
         {
             System.Windows.MessageBox.Show("Application created new folder for saved files. It can be found in My Documents/SongsRepo.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
         }
+
+        public void DisplayNullError()
+        {
+            System.Windows.MessageBox.Show("You must chose song to perform this action.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
     }
 }

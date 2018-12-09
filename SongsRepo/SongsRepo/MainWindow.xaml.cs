@@ -54,31 +54,56 @@ namespace SongsRepo
         private void editItem_Click(object sender, RoutedEventArgs e)
         {
             Song chosenSong = (Song)dataGrid.SelectedItem;
-            chosenSong.editSong(this);
+            if(chosenSong != null) chosenSong.editSong(this);
+            else
+            {
+                Warning nullError = new Warning();
+                nullError.DisplayNullError();
+            }
         }
 
         private void deleteItem_Click(object sender, RoutedEventArgs e)
         {
             Song chosenSong = (Song)dataGrid.SelectedItem;
             if (chosenSong != null) chosenSong.deleteSong(songsList);
+            else
+            {
+                Warning nullError = new Warning();
+                nullError.DisplayNullError();
+            }
         }
 
         private void addNotes_Click(object sender, RoutedEventArgs e)
         {
             Song chosenSong = (Song)dataGrid.SelectedItem;
-            chosenSong.copyFile(".pdf");
+            if (chosenSong != null)  chosenSong.copyFile(".pdf");
+            else
+            {
+                Warning nullError = new Warning();
+                nullError.DisplayNullError();
+            }
         }
 
         private void addText_Click(object sender, RoutedEventArgs e)
         {
             Song chosenSong = (Song)dataGrid.SelectedItem;
-            chosenSong.copyFile(".txt");
+            if (chosenSong != null) chosenSong.copyFile(".txt");
+            else
+            {
+                Warning nullError = new Warning();
+                nullError.DisplayNullError();
+            }
         }
 
         private void AddMP3_Click(object sender, RoutedEventArgs e)
         {
             Song chosenSong = (Song)dataGrid.SelectedItem;
-            chosenSong.copyFile(".mp3");
+            if (chosenSong != null) chosenSong.copyFile(".mp3");
+            else
+            {
+                Warning nullError = new Warning();
+                nullError.DisplayNullError();
+            }
         }
 
         private void disposeButton_Click(object sender, RoutedEventArgs e)
