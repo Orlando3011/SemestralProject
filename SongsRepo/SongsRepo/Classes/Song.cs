@@ -1,12 +1,8 @@
 ﻿using Microsoft.Win32;
 using SongsRepo.Forms;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace SongsRepo.Classes
@@ -134,7 +130,7 @@ namespace SongsRepo.Classes
             }
         }
 
-        public void deleteFile(string chosenFile) // "Notes", "Text" or "MP3"
+        public void DeleteFile(string chosenFile) // "Notes", "Text" or "MP3"
         {
             switch (chosenFile)
             {
@@ -157,7 +153,7 @@ namespace SongsRepo.Classes
             }
         }
 
-        public void copyFile(string fileExt) //".pdf", ".txt" or ".mp3" 
+        public void CopyFile(string fileExt) //".pdf", ".txt" or ".mp3" 
         {
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
             openFileDialog1.RestoreDirectory = true;
@@ -172,7 +168,7 @@ namespace SongsRepo.Classes
                 switch (fileExt)
                 {
                     case ".pdf":
-                        this.deleteFile("Notes");
+                        this.DeleteFile("Notes");
                         this.Notes = this.Name + "_notes";
                         fileName = this.Notes;
                         destinationFolder = "Notes";
@@ -180,7 +176,7 @@ namespace SongsRepo.Classes
                         this.NotesPath = path;
                         break;
                     case ".txt":
-                        this.deleteFile("Text");
+                        this.DeleteFile("Text");
                         this.Text = this.Name + "_text";
                         fileName = this.Text;
                         destinationFolder = "Texts";
@@ -188,7 +184,7 @@ namespace SongsRepo.Classes
                         this.TextPath = path;
                         break;
                     case ".mp3":
-                        this.deleteFile("MP3");
+                        this.DeleteFile("MP3");
                         this.MP3 = this.Name + "_mp3";
                         fileName = this.MP3;
                         destinationFolder = "MP3s";
@@ -200,7 +196,7 @@ namespace SongsRepo.Classes
             }
         }
 
-        public void deleteSong(ObservableCollection<Song> songsList)
+        public void DeleteSong(ObservableCollection<Song> songsList)
         {
             songsList.Remove(this);
             if (this.NotesPath != null) File.Delete(this.NotesPath);
@@ -208,7 +204,7 @@ namespace SongsRepo.Classes
             if (this.MP3Path != null) File.Delete(this.MP3Path);
         }
 
-        public void editSong(Window window)
+        public void EditSong(Window window)
         {
             if (this != null)
             {

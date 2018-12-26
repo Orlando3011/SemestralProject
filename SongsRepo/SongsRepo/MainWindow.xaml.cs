@@ -1,119 +1,104 @@
 ﻿using SongsRepo.Classes;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 using SongsRepo.Forms;
-using Microsoft.Win32;
 using System.IO;
-using Path = System.IO.Path;
-using System.Xml.Serialization;
-using System.Xml;
-using System.Windows.Forms;
+using SongsRepo.Classes.EventHandling;
 
 namespace SongsRepo
 {
     public partial class MainWindow : Window
     {
-        public ObservableCollection<Song> songsList { get; set; }
+        public ObservableCollection<Song> SongsList { get; set; }
 
         public MainWindow()
         {
             DirectoryMenager dirMenager = new DirectoryMenager();
             dirMenager.CreateDirectory();
 
-            songsList = new ObservableCollection<Song> { };
+            SongsList = new ObservableCollection<Song> { };
 
             InitializeComponent();
         }
 
-        private void addSongButton_Click(object sender, RoutedEventArgs e)
+        private void AddSongButton_Click(object sender, RoutedEventArgs e)
         {
             int songID;
-            if (songsList.Any()) songID = songsList.Last().Id + 1;
+            if (SongsList.Any()) songID = SongsList.Last().Id + 1;
             else songID = 1;
 
             Song newSong = new Song(songID, "", "");
             NewSongForm newSongForm = new NewSongForm(newSong, this);
             this.IsEnabled = false;
             newSongForm.Show();
-            songsList.Add(newSong);
+            SongsList.Add(newSong);
         }
 
-        private void editItem_Click(object sender, RoutedEventArgs e)
+        private void EditItem_Click(object sender, RoutedEventArgs e)
         {
             Song chosenSong = (Song)dataGrid.SelectedItem;
-            if(chosenSong != null) chosenSong.editSong(this);
+            if(chosenSong != null) chosenSong.EditSong(this);
             else
             {
-                Warning nullError = new Warning();
-                nullError.DisplayNullError();
+                NothingChosenError error = new NothingChosenError();
+                error.DisplayMessage();
             }
         }
 
-        private void deleteItem_Click(object sender, RoutedEventArgs e)
+        private void DeleteItem_Click(object sender, RoutedEventArgs e)
         {
             Song chosenSong = (Song)dataGrid.SelectedItem;
-            if (chosenSong != null) chosenSong.deleteSong(songsList);
+            if (chosenSong != null) chosenSong.DeleteSong(SongsList);
             else
             {
-                Warning nullError = new Warning();
-                nullError.DisplayNullError();
+                NothingChosenError error = new NothingChosenError();
+                error.DisplayMessage();
             }
         }
 
-        private void addNotes_Click(object sender, RoutedEventArgs e)
+        private void AddNotes_Click(object sender, RoutedEventArgs e)
         {
             Song chosenSong = (Song)dataGrid.SelectedItem;
-            if (chosenSong != null)  chosenSong.copyFile(".pdf");
+            if (chosenSong != null)  chosenSong.CopyFile(".pdf");
             else
             {
-                Warning nullError = new Warning();
-                nullError.DisplayNullError();
+                NothingChosenError error = new NothingChosenError();
+                error.DisplayMessage();
             }
         }
 
-        private void addText_Click(object sender, RoutedEventArgs e)
+        private void AddText_Click(object sender, RoutedEventArgs e)
         {
             Song chosenSong = (Song)dataGrid.SelectedItem;
-            if (chosenSong != null) chosenSong.copyFile(".txt");
+            if (chosenSong != null) chosenSong.CopyFile(".txt");
             else
             {
-                Warning nullError = new Warning();
-                nullError.DisplayNullError();
+                NothingChosenError error = new NothingChosenError();
+                error.DisplayMessage();
             }
         }
 
         private void AddMP3_Click(object sender, RoutedEventArgs e)
         {
             Song chosenSong = (Song)dataGrid.SelectedItem;
-            if (chosenSong != null) chosenSong.copyFile(".mp3");
+            if (chosenSong != null) chosenSong.CopyFile(".mp3");
             else
             {
-                Warning nullError = new Warning();
-                nullError.DisplayNullError();
+                NothingChosenError error = new NothingChosenError();
+                error.DisplayMessage();
             }
         }
 
-        private void disposeButton_Click(object sender, RoutedEventArgs e)
+        private void DisposeButton_Click(object sender, RoutedEventArgs e)
         {
-            Warning warning = new Warning();
-            if (warning.DisplayDeleteWarning() == true)
+            QuestionInfo question = new QuestionInfo();
+            if (question.AskYesNo() == true)
             {
                 DirectoryMenager dirMenager = new DirectoryMenager();
                 dirMenager.ClearDirectory();
-                songsList.Clear();
+                SongsList.Clear();
             }
         }
 
@@ -121,31 +106,47 @@ namespace SongsRepo
         {
             
             Song chosenSong = (Song)dataGrid.SelectedItem;
-            if (chosenSong.NotesPath != null && chosenSong.TextPath != null)
+            if(chosenSong != null)
             {
-                DisplayForm displayForm = new DisplayForm(chosenSong, this);
-                this.IsEnabled = false;
-                displayForm.Show();
+                if (chosenSong.NotesPath != null && chosenSong.TextPath != null)
+                {
+                    DisplayForm displayForm = new DisplayForm(chosenSong, this);
+                    this.IsEnabled = false;
+                    displayForm.Show();
+                }
+                else
+                {
+                    DocumentError error = new DocumentError();
+                    error.DisplayMessage();
+                }
             }
             else
             {
-                Warning errorWwrning = new Warning();
-                errorWwrning.DisplayDocumentsError();
+                DocumentError error = new DocumentError();
+                error.DisplayMessage();
             }
-        }   
+        }
 
         private void PlaySong_Click(object sender, RoutedEventArgs e)
         {
             Song chosenSong = (Song)dataGrid.SelectedItem;
-            if(chosenSong.MP3Path != null)
+            if (chosenSong != null)
             {
-                PlayerForm playerForm = new PlayerForm(chosenSong);
-                playerForm.Show();
+                if (chosenSong.MP3Path != null)
+                {
+                    PlayerForm playerForm = new PlayerForm(chosenSong);
+                    playerForm.Show();
+                }
+                else
+                {
+                    MP3Error error = new MP3Error();
+                    error.DisplayMessage();
+                }
             }
             else
             {
-                Warning errorWwrning = new Warning();
-                errorWwrning.DisplayMP3Error();
+                MP3Error error = new MP3Error();
+                error.DisplayMessage();
             }
         }
 
@@ -157,26 +158,22 @@ namespace SongsRepo
         private void window_Closed(object sender, EventArgs e)
         {
             SerializeMenager sMenager = new SerializeMenager();
-            sMenager.SerializeList(songsList);
+            sMenager.SerializeList(SongsList);
         }
 
         private void window_Loaded(object sender, RoutedEventArgs e)
         {
             if (File.Exists("songsList.xml"))
             {
-                XmlSerializer xmlSerializer = new XmlSerializer(typeof(ObservableCollection<Song>));
-                using (Stream fStream = new FileStream("songsList.xml", FileMode.Open, FileAccess.Read, FileShare.None))
-                {
-                    XmlReader reader = XmlReader.Create(fStream);
-                    songsList.Clear();
-                    songsList = (ObservableCollection<Song>)xmlSerializer.Deserialize(reader);
-                    //SerializeMenager sMenager = new SerializeMenager();
-                    //sMenager.LoadSerializedList(songsList);
-
-                    dataGrid.ItemsSource = songsList;
+                SerializeMenager sMenager = new SerializeMenager();
+                foreach (Song song in sMenager.LoadSerializedList()) SongsList.Add(song);
+                dataGrid.ItemsSource = SongsList;
                 }
+            else
+            {
+                NewDirInfo info = new NewDirInfo();
+                info.DisplayMessage();
             }
         }
-
     }
 }

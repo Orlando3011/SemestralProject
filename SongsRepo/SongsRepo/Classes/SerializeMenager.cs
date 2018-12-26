@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -26,18 +20,19 @@ namespace SongsRepo.Classes
             }
         }
 
-        public void LoadSerializedList(ObservableCollection<Song> list)
+        public ObservableCollection<Song> LoadSerializedList()
         {
+            ObservableCollection<Song> list = new ObservableCollection<Song>();
             if (File.Exists("songsList.xml"))
             {
                 XmlSerializer xmlSerializer = new XmlSerializer(typeof(ObservableCollection<Song>));
                 using (Stream fStream = new FileStream("songsList.xml", FileMode.Open, FileAccess.Read, FileShare.None))
                 {
                     XmlReader reader = XmlReader.Create(fStream);
-                    list.Clear();
                     list = (ObservableCollection<Song>)xmlSerializer.Deserialize(reader);
                 }
             }
+            return list;
         }
     }
 }

@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SongsRepo.Classes
 {
@@ -45,9 +41,6 @@ namespace SongsRepo.Classes
             {
                 Directory.CreateDirectory(this.directoryPath);
                 this.CreateSubfolders();
-
-                Warning info = new Warning();
-                info.DisplayCreatedDirectoryInfo();
             }
         }
 

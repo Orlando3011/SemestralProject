@@ -14,11 +14,11 @@
         <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" Height="410" Margin="1.2,0,-0.4,0" VerticalAlignment="Top" Width="596" ItemsSource="{Binding songsList, ElementName=window}" IsSynchronizedWithCurrentItem="True" IsReadOnly="True" Grid.Column="1">
             <DataGrid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem x:Name="editItem" Header="Edit..." Click="editItem_Click"/>
-                    <MenuItem x:Name="deleteItem" Header="Delete..." Click="deleteItem_Click"/>
+                    <MenuItem x:Name="editItem" Header="Edit..." Click="EditItem_Click"/>
+                    <MenuItem x:Name="deleteItem" Header="Delete..." Click="DeleteItem_Click"/>
                     <Separator/>
-                    <MenuItem x:Name="addNotes" Header="Add notes..." Click="addNotes_Click"/>
-                    <MenuItem x:Name="addText" Header="Add text..." Click="addText_Click"/>
+                    <MenuItem x:Name="addNotes" Header="Add notes..." Click="AddNotes_Click"/>
+                    <MenuItem x:Name="addText" Header="Add text..." Click="AddText_Click"/>
                     <MenuItem x:Name="AddMP3" Header="Add MP3" Click="AddMP3_Click"/>
                     <Separator/>
                     <MenuItem x:Name="ShowSong" Header="Display files..." Click="ShowSong_Click"></MenuItem>
@@ -26,8 +26,8 @@
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>
-        <Button x:Name="addSongButton" Content="Add New Song" HorizontalAlignment="Left" Margin="47,10,0,0" VerticalAlignment="Top" Width="110" Click="addSongButton_Click" Height="26"/>
-        <Button x:Name="disposeButton" Content="Clear repositories..." HorizontalAlignment="Left" Margin="47,41,0,0" VerticalAlignment="Top" Width="110" Height="26" Click="disposeButton_Click"/>
+        <Button x:Name="addSongButton" Content="Add New Song" HorizontalAlignment="Left" Margin="47,10,0,0" VerticalAlignment="Top" Width="110" Click="AddSongButton_Click" Height="26"/>
+        <Button x:Name="disposeButton" Content="Clear repositories..." HorizontalAlignment="Left" Margin="47,41,0,0" VerticalAlignment="Top" Width="110" Height="26" Click="DisposeButton_Click"/>
         <Button x:Name="QuitButton" Content="Quit" HorizontalAlignment="Left" Margin="47,391,0,0" VerticalAlignment="Top" Width="110" Click="QuitButton_Click"/>
 
     </Grid>
