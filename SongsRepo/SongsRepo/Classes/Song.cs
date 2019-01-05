@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using SongsRepo.Classes.EventHandling;
 using SongsRepo.Forms;
 using System;
 using System.Collections.ObjectModel;
@@ -193,6 +194,11 @@ namespace SongsRepo.Classes
                         break;
                 }
                 File.Copy(openFileDialog1.FileName, path);
+            }
+            else
+            {
+                ExtensionError extensionError = new ExtensionError();
+                extensionError.DisplayMessage();
             }
         }
 

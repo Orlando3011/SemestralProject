@@ -80,6 +80,7 @@
     <Compile Include="Classes\DirectoryMenager.cs" />
     <Compile Include="Classes\EventHandling\DocumentError.cs" />
     <Compile Include="Classes\EventHandling\EventHandler.cs" />
+    <Compile Include="Classes\EventHandling\ExtensionError.cs" />
     <Compile Include="Classes\EventHandling\MP3Error.cs" />
     <Compile Include="Classes\EventHandling\NameError.cs" />
     <Compile Include="Classes\EventHandling\NewDirInfo.cs" />

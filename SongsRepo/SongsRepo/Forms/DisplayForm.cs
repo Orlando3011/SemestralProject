@@ -1,4 +1,5 @@
 ﻿using SongsRepo.Classes;
+using SongsRepo.Classes.EventHandling;
 using System;
 using System.IO;
 using System.Windows;
@@ -76,15 +77,21 @@ namespace SongsRepo.Forms
                     }
                 default:
                     break;
-
-
             }
         }
 
         private void playSongToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            PlayerForm playerForm = new PlayerForm(chosenSong, this);
-            playerForm.Show();
+            if (chosenSong.MP3Path != null)
+            {
+                PlayerForm playerForm = new PlayerForm(chosenSong);
+                playerForm.Show();
+            }
+            else
+            {
+                MP3Error error = new MP3Error();
+                error.DisplayMessage();
+            }
         }
     }
 }
